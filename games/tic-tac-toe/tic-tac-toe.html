@@ -2,8 +2,11 @@
 <head>
     <title>Tic Tac Toe</title>
     <link rel="stylesheet" href="tic-tac-toe.css">
-    <link rel="shortcut icon"
-          href="https://mitchum.blog/wp-content/uploads/2019/05/favicon.png" />
+    <script src="https://unpkg.com/@vkontakte/vk-bridge/dist/browser.min.js"></script>
+    <script>
+        // Sends event to client
+        vkBridge.send('VKWebAppInit');
+    </script>
 </head>
 <body>
 <main>
