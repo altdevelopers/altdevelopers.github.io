@@ -4,9 +4,37 @@
     <link rel="stylesheet" href="tic-tac-toe.css">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no, user-scalable=no, viewport-fit=cover">
     <script src="https://unpkg.com/@vkontakte/vk-bridge/dist/browser.min.js"></script>
+
+    <script type="text/javascript" src="//vk.com/js/api/xd_connection.js?2" charset="utf-8"></script>
+    <script type="text/javascript" src="//ad.mail.ru/static/admanhtml/rbadman-html5.min.js" charset="utf-8"></script>
+    <script type="text/javascript" src="//vk.com/js/api/adman_init.js" charset="utf-8"></script>
     <script>
-        // Sends event to client
-        vkBridge.send('VKWebAppInit');
+        window.addEventListener('load', function() {
+
+            vkBridge.send('VKWebAppInit');
+            vkBridge.send('VKWebAppGetAds').then(console.log)
+            let user = vkBridge.send("VKWebAppGetUserInfo");
+            var user_id = user.data.id;   // user's id
+            var app_id = 7868838;  // your app's id
+
+            admanInit({
+                user_id: user_id,
+                app_id: 7868838,
+                type: 'preloader'         // 'preloader' or 'rewarded' (default - 'preloader')
+                // params: {preview: 1}   // to verify the correct operation of advertising
+            }, onAdsReady, onNoAds);
+
+            function onAdsReady(adman) {
+                adman.onStarted(function () {});
+                adman.onCompleted(function() {});
+                adman.onSkipped(function() {});
+                adman.onClicked(function() {});
+                adman.start('preroll');
+            };
+            function onNoAds() {
+                window.location.reload()
+            };
+        });
     </script>
 </head>
 <body>
