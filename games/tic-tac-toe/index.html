@@ -37,17 +37,10 @@
                 type: 'preloader'         // 'preloader' or 'rewarded' (default - 'preloader')
                 // params: {preview: 1}   // to verify the correct operation of advertising
             }, onAdsReady, onNoAds);
-
             function onAdsReady(adman) {
-                adman.onStarted(function () {});
-                adman.onCompleted(function() {});
-                adman.onSkipped(function() {});
-                adman.onClicked(function() {});
                 adman.start('preroll');
             };
-            function onNoAds() {
-                window.location.reload()
-            };
+            function onNoAds() {};
         });
     </script>
 </head>
