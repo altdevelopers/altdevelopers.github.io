@@ -1,147 +1,261 @@
-"use strict";
+const GRID_SIZE = 9;
+const REMOVE = 50;
 
-class Sudoku {
-    constructor() {
-        this.board = this.blank_board_array();
-    }
+let solution = createArray(9, 9);
 
-    blank_board_array() {
-        return [
-            [0,0,0,0,0,0,0,0,0],
-            [0,0,0,0,0,0,0,0,0],
-            [0,0,0,0,0,0,0,0,0],
-            [0,0,0,0,0,0,0,0,0],
-            [0,0,0,0,0,0,0,0,0],
-            [0,0,0,0,0,0,0,0,0],
-            [0,0,0,0,0,0,0,0,0],
-            [0,0,0,0,0,0,0,0,0],
-            [0,0,0,0,0,0,0,0,0]
-        ];
-    }
-
-    set_board(board_string) {
-        if ( ! board_string.match(/^\d{81}$/m) ) {
-            this.board = this.blank_board_array();
-            return;
-        }
-
-        for ( let row = 0; row <= 8; row++ ) {
-            for ( let column = 0; column <= 8; column++ ) {
-                this.board[row][column] = board_string.charAt(row*9+column);
-            }
-        }
-
-    }
-
-    get_board_array() {
-        return this.board;
-    }
-
-    make_move(row, col, value) {
-        this.board[row][col] = value;
-    }
-
-    is_legal_move(row, col, value) {
-        if ( ! value.match(/^[1-9]$/m) ) {
-            return false;
-        }
-
-        for ( let i = 0; i <= 8; i++ ) {
-            if ( value == this.board[row][i] ) {
-                return false;
-            }
-        }
-
-        for ( let i = 0; i <= 8; i++ ) {
-            if ( value == this.board[i][col] ) {
-                return false;
-            }
-        }
-
-        let row_offset = Math.floor(row/3)*3;
-        let col_offset = Math.floor(col/3)*3;
-        for ( let i = 0 + row_offset; i <= 2 + row_offset; i++ ) {
-            for ( let j = 0 + col_offset; j <= 2 + col_offset; j++ ) {
-                if ( value == this.board[i][j] ) {
-                    return false;
-                }
-            }
-        }
-
-        return true;
-    }
-};
-
-let game1 = new Sudoku();
-let import_string;
-let import_button = document.getElementById('import');
-let sudoku_squares = createArray(9,9);
-
-for ( let row = 0; row <= 8; row++ ) {
-    for ( let col = 0; col <= 8; col++ ) {
-        sudoku_squares[row][col] =  document.getElementsByClassName('sudoku')[0].getElementsByTagName('tbody')[0].getElementsByTagName('tr')[row].getElementsByTagName('td')[col].getElementsByTagName('input')[0];
-    }
-}
-
-import_button.addEventListener("mouseup", function() {
-    import_string = document.getElementsByName("import_string")[0].value;
-    game1.set_board(import_string);
-    print_sudoku_to_webpage(game1);
+let textIsVisible = false;
+window.addEventListener('load', function() {
+    initialize();
 });
 
-for ( let row = 0; row <= 8; row++ ) {
-    for ( let col = 0; col <= 8; col++ ) {
-        sudoku_squares[row][col].addEventListener('input', function(e) {
-            e.target.classList.remove("invalid");
-
-            if ( ! game1.is_legal_move(row, col, e.target.value) && e.target.value != "" ) {
-                e.target.value = "";
-                highlight_temporarily(e.target, 2000);
-            } else {
-                game1.make_move(row, col, e.target.value);
+document.getElementById('submit').addEventListener('click', function() {
+    let elements = document.getElementsByTagName('input');
+    let k = 0;
+    for(let i = 0; i < 9; i++) {
+        for(let j = 0; j < 9; j++) {
+            let value = parseInt(elements[k].value);
+            if(value !== solution[i][j]) {
+                textIsVisible = true;
+                $('#text').text('That\'s not the correct solution!');
+                return;
             }
+            k++;
+        }
+    }
+    textIsVisible = true;
+    $('#text').text('Correct!');
+});
+
+document.getElementById('reset').addEventListener('click', function() {
+    initialize();
+});
+
+function initialize() {
+    textIsVisible = false;
+    $('#text').text('');
+    let elements = document.getElementsByTagName('input');
+    for(let i = 0; i < elements.length; i++) {
+        elements[i].classList.add('focus');
+        elements[i].removeAttribute('readonly');
+        elements[i].classList.remove('bold');
+        elements[i].addEventListener('click', function() {
+            $('#text').text('');
         });
     }
+    let sudoku = generate();
+    solveSudoku(sudoku, 0);
+    showSudoku(elements, sudoku);
 }
 
-function print_sudoku_to_webpage(sudoku_object) {
-    let board = sudoku_object.get_board_array();
-    clear_webpage_board();
-    for ( let row = 0; row <= 8; row++ ) {
-        for ( let col = 0; col <= 8; col++ ) {
-            if ( board[row][col] != 0 ) {
-                let input = sudoku_squares[row][col];
-                input.value = board[row][col];
-                input.classList.add('imported_square');
+function generate() {
+    //Fill with zeros
+    let sudoku = createArray(9, 9);
+    for(let i = 0; i < 9; i++) {
+        for (let j = 0; j < 9; j++) {
+            sudoku[i][j] = 0;
+        }
+    }
+
+    //Add ten random numbers
+    for(let i = 0; i < 10; i++) {
+        sudoku = addNumber(sudoku);
+    }
+
+    /*
+     * Add random numbers in the first row in addition to random numbers
+     * in addition to random numbers on random positions
+     */
+    sudoku[0][1] = legalNumbers(sudoku, 0, 1);
+    sudoku[0][4] = legalNumbers(sudoku, 0, 4);
+    sudoku[0][7] = legalNumbers(sudoku, 0, 7);
+
+
+    //Solve sudoku
+    solveSudoku(sudoku, 0);
+    for(let i = 0; i < 9; i++) {
+        for (let j = 0; j < 9; j++) {
+            sudoku[i][j] = solution[i][j];
+        }
+    }
+
+    /*
+     * Remove elements so that sudoku still has unique solution
+     */
+    let i = 0;
+    while(i < REMOVE) {
+        let row = Math.floor(Math.random() * 9);
+        let col = Math.floor(Math.random() * 9);
+        if(sudoku[row][col] !== 0) {
+            let cache = sudoku[row][col];
+            sudoku[row][col] = 0;
+            if(solveSudoku(sudoku, 0) !== 1) {
+                /*
+                 * Go one step back if sudoku doesn't have unique solution
+                 * anymore
+                 */
+                sudoku[row][col] = cache;
+            }
+            else {
+                i++;
             }
         }
     }
+    return sudoku;
 }
 
-function clear_webpage_board() {
-    for ( let row = 0; row <= 8; row++ ) {
-        for ( let col = 0; col <= 8; col++ ) {
-            sudoku_squares[row][col].value = "";
-            sudoku_squares[row][col].classList.remove('imported_square');
+function createArray(rows, cols) {
+    const array = new Array(rows);
+    for (let i = 0; i < cols; i++) {
+        array[i] = new Array(cols);
+    }
+    return array;
+}
+
+function addNumber(sudoku) {
+    /*
+     * Find random position to add number
+     */
+    let row = Math.floor(Math.random() * 9);
+    let col = Math.floor(Math.random() * 9);
+
+    /*
+     * Add random, but legal number
+     */
+    sudoku[row][col] = legalNumbers(sudoku, row, col);
+    return sudoku;
+}
+
+function solveSudoku(sudoku, count) {
+    for(let i = 0; i < GRID_SIZE; i++) {
+        for (let j = 0; j < GRID_SIZE; j++) {
+            /*
+             * Only empty fields will be changd
+             */
+            if(sudoku[i][j] === 0) {
+                /*
+                 * Try all numbers between 1 and 9
+                 */
+                for(let n = 1; n <= GRID_SIZE && count < 2; n++) {
+                    /*
+                     * Is number n safe?
+                     */
+                    if(checkRow(sudoku, i, n) && checkColumn(sudoku, j, n) && checkBox(sudoku, i, j, n)) {
+                        sudoku[i][j] = n;
+                        let cache = solveSudoku(sudoku, count);
+                        /*
+                         * new solution found
+                         */
+                        if(cache > count) {
+                            count = cache;
+                            /*
+                             * Save new solution
+                             */
+                            for(let k = 0; k < GRID_SIZE; k++) {
+                                for(let l = 0; l < GRID_SIZE; l++) {
+                                    if(sudoku[k][l] !== 0) {
+                                        solution[k][l] = sudoku[k][l];
+                                    }
+                                }
+                            }
+                            sudoku[i][j] = 0;
+                        }
+                        /*
+                         * Not a solution, go one step back
+                         */
+                        else {
+                            sudoku[i][j] = 0;
+                        }
+
+                    }
+                }
+                /*
+                 * No other solution found
+                 */
+                return count;
+            }
+        }
+    }
+    /*
+     * found another solution
+     */
+    return count + 1;
+}
+
+function showSudoku(elements, sudoku) {
+    let k = 0;
+    for(let i = 0; i < GRID_SIZE; i++) {
+        for(let j = 0; j < GRID_SIZE; j++) {
+            if(sudoku[i][j] > 0) {
+                elements[k].value = sudoku[i][j];
+                elements[k].setAttribute('readonly', 'true');
+                elements[k].classList.remove('focus');
+                elements[k].classList.add('bold');
+            }
+            else {
+                elements[k].value = '';
+            }
+            k++;
         }
     }
 }
 
-function createArray(length) {
-    var arr = new Array(length || 0),
-        i = length;
 
-    if (arguments.length > 1) {
-        var args = Array.prototype.slice.call(arguments, 1);
-        while(i--) arr[length-1 - i] = createArray.apply(this, args);
+/*
+ * Helper functions
+ */
+
+function checkRow(sudoku, row, n) {
+    for(let i = 0; i < GRID_SIZE; i++) {
+        if(sudoku[row][i] === n) {
+            return false;
+        }
     }
-
-    return arr;
+    return true;
 }
 
-function highlight_temporarily(obj, timeout_in_ms){
-    obj.classList.add('invalid');
-    setTimeout(function(){
-        obj.classList.remove('invalid');
-    }, timeout_in_ms);
+function checkColumn(sudoku, col, n) {
+    for(let i = 0; i < GRID_SIZE; i++) {
+        if(sudoku[i][col] === n) {
+            return false;
+        }
+    }
+    return true;
+}
+
+function checkBox(sudoku, row, col, n) {
+    row = row - row % 3;
+    col = col - col % 3;
+    for(let i = row; i < row + 3; i++) {
+        for(let j = col; j < col + 3; j++) {
+            if(sudoku[i][j] === n) {
+                return false;
+            }
+        }
+    }
+    return true;
+}
+
+function legalNumbers(sudoku, row, col) {
+    let array = [];
+    for(let i = 1; i <= 9; i++) {
+        if(checkRow(sudoku, row, i) && checkColumn(sudoku, col, i) && checkBox(sudoku, row, col, i)) {
+            array.push(i);
+            break;
+        }
+    }
+    return array[Math.floor(Math.random() * array.length)];
+}
+
+function isNumber(elem, e) {
+    if(elem.value.length !== 0) {
+        return false;
+    }
+    let id = e.key;
+    let string = '123456789';
+    for(let i = 0; i < string.length; i++) {
+        if(string.charAt(i) === id) {
+            return true;
+        }
+    }
+    return false;
 }
