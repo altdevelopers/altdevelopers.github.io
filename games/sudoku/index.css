@@ -1,0 +1,15 @@
+body {font-family:sans-serif;}
+
+.import {padding-bottom:0.2em;}
+.import input[type=text] {width:630px;}
+
+.valid {background-color:limegreen;}
+.invalid {background-color:red;}
+.imported_square {background-color:lightgray;}
+
+.sudoku {border:4px solid black; border-collapse: collapse;}
+.sudoku tr {padding:0;}
+.sudoku td {padding:0; border:1px solid black; width:1em;}
+.sudoku input {width:1em; border:0; font-size:25pt; text-align:center;}
+.sudoku .thick_right {border-right:4px solid black !important;}
+.sudoku .thick_bottom {border-bottom:4px solid black;}
