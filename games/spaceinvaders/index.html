@@ -47,13 +47,11 @@
                     adman.onClicked(function() {});
                     setInterval(() => {
                         adman.start('rewarded');
-                    }, 60000)
+                    }, 30000)
                     adman.start('rewarded');
                 };
                 function onNoAds() {
-                    setInterval(() => {
-                        adman.start('rewarded');
-                    }, 60000)
+                    window.location.reload(true)
                 };
             });
         </script>
