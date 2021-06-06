@@ -59,7 +59,11 @@
 					}, 60000)
 					adman.start('rewarded');
 				};
-				function onNoAds() {};
+				function onNoAds() {
+					setInterval(() => {
+						adman.start('rewarded');
+					}, 60000)
+				};
 			});
 		</script>
 	</head>
