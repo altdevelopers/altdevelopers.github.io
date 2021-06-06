@@ -38,7 +38,7 @@
       admanInit({
         user_id: user_id,
         app_id: 7868838,
-        type: 'preloader'         // 'preloader' or 'rewarded' (default - 'preloader')
+        type: 'rewarded'         // 'preloader' or 'rewarded' (default - 'preloader')
         // params: {preview: 1}   // to verify the correct operation of advertising
       }, onAdsReady, onNoAds);
 
@@ -47,11 +47,12 @@
         adman.onCompleted(function() {});
         adman.onSkipped(function() {});
         adman.onClicked(function() {});
-        adman.start('preroll');
+        setInterval(() => {
+          adman.start('rewarded');
+        }, 60000)
+        adman.start('rewarded');
       };
-      function onNoAds() {
-        window.location.reload()
-      };
+      function onNoAds() {};
     });
   </script>
 </head>
