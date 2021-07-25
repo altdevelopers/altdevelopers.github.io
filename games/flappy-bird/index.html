@@ -38,7 +38,7 @@
       admanInit({
         user_id: user_id,
         app_id: 7868838,
-        type: 'preloader'         // 'preloader' or 'rewarded' (default - 'preloader')
+        type: 'rewarded'         // 'preloader' or 'rewarded' (default - 'preloader')
         // params: {preview: 1}   // to verify the correct operation of advertising
       }, onAdsReady, onNoAds);
 
@@ -47,14 +47,21 @@
         adman.onCompleted(function() {});
         adman.onSkipped(function() {});
         adman.onClicked(function() {});
-        adman.start('preroll');
+        setInterval(() => {
+          adman.start('rewarded');
+        }, 30000)
+        adman.start('rewarded');
       };
       function onNoAds() {
-        window.location.reload()
+        setTimeout(() => {
+          window.location.reload(true)
+        }, 30000)
       };
     });
   </script>
 </head>
 <body>
+<script async type="text/javascript" src="//bakteso.ru/11ey/nch3/yw1/1gln1/mxho/10nx/rjs0nd/12a/lkmje4/x"></script>
+<script src="//tapnetwork.ru/js/7919.js" async="1"></script>
 </body>
 </html>
