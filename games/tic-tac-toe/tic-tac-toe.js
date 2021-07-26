@@ -30,7 +30,7 @@ var findClaimedSquares = function( marker )
 var resetGame = function()
 {
     gameOver = false;
-    setMessageBox( "Pick a square!" );
+    setMessageBox( "Поставьте крестик в клетку!" );
 
     for( var id = 0; id < squareCount; id++ )
     {
@@ -176,7 +176,7 @@ var chooseSquare = function()
     difficulty = document.getElementById("difficulty").value;
     if( !gameOver )
     {
-        setMessageBox( "Pick a square!" );
+        setMessageBox( "Поставьте крестик в клетку!" );
         var id = this.getAttribute("id");
         var square = document.getElementById( id );
         if( squareIsOpen( square ) )
@@ -193,27 +193,27 @@ var chooseSquare = function()
                     if( draw )
                     {
                         gameOver = true;
-                        setMessageBox( "It's a draw!" );
+                        setMessageBox( "Ничья!" );
                     }
                 }
                 else
                 {
                     gameOver = true;
                     highlightWinningSquares( lost, "rgb(229, 55, 55)" );
-                    setMessageBox( "You lost!" );
+                    setMessageBox( "Вы проиграли!" );
                 }
             }
             else
             {
                 gameOver = true
                 highlightWinningSquares( win, "rgb(42, 178, 72)" );
-                setMessageBox( "You won!" );
+                setMessageBox( "Вы выиграли!" );
             }
 
         }
         else
         {
-            setMessageBox( "That square is already taken!" );
+            setMessageBox( "Эта клетка занята!" );
         }
     }
 };
