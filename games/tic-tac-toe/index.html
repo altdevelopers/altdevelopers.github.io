@@ -25,8 +25,9 @@
     <script type="text/javascript" src="//vk.com/js/api/adman_init.js" charset="utf-8"></script>
     <script>
         window.addEventListener('load', function() {
-
             vkBridge.send('VKWebAppInit');
+        });
+        function Ad() {
             const queryString = window.location.search;
             console.log(queryString);
             const urlParams = new URLSearchParams(queryString);
@@ -34,8 +35,6 @@
             console.log(id);
             var user_id = Number(id);   // user's id
             var app_id = 7868838;  // your app's id
-        });
-        function Ad() {
             admanInit({
                 user_id: user_id,
                 app_id: 7868838,
