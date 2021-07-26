@@ -61,7 +61,7 @@
 </head>
 <body>
 <main>
-    <h1>Tic Tac Toe</h1>
+    <h1>Крестики Нолики</h1>
     <table class="board">
         <tr>
             <td>
@@ -98,38 +98,16 @@
         </tr>
     </table>
     <br>
-    <div id="messageBox">Pick a square!</div>
+    <div id="messageBox">Поставь крестик в клетку!</div>
     <br>
     <div class="controls">
-        <button class="button" onclick="resetGame()">Play Again</button>
+        <button class="button" onclick="window.location.reload(true)">Играть еще раз</button>
         <select id="difficulty">
-            <option value="moron" selected >Easy</option>
-            <option value="genius">Hard</option>
+            <option value="moron" selected >Легко</option>
+            <option value="genius">Сложно</option>
         </select>
     </div>
 </main>
 <script src="tic-tac-toe.js"></script>
-<div id="vk_ads_133907"></div>
-<script type="text/javascript">
-  setTimeout(function() {
-    var adsParams = {"ad_unit_id":133907,"ad_unit_hash":"1700a086cbea3746731a1fb0f09ca143"};
-    function vkAdsInit() {
-      VK.Widgets.Ads('vk_ads_133907', {}, adsParams);
-    }
-    if (window.VK && VK.Widgets) {
-      vkAdsInit();
-    } else {
-      if (!window.vkAsyncInitCallbacks) window.vkAsyncInitCallbacks = [];
-      vkAsyncInitCallbacks.push(vkAdsInit);
-      var protocol = ((location.protocol === 'https:') ? 'https:' : 'http:');
-      var adsElem = document.getElementById('vk_ads_133907');
-      var scriptElem = document.createElement('script');
-      scriptElem.type = 'text/javascript';
-      scriptElem.async = true;
-      scriptElem.src = protocol + '//vk.com/js/api/openapi.js?169';
-      adsElem.parentNode.insertBefore(scriptElem, adsElem.nextSibling);
-    }
-  }, 0);
-</script>
 </body>
 </html>
