@@ -34,6 +34,8 @@
             console.log(id);
             var user_id = Number(id);   // user's id
             var app_id = 7868838;  // your app's id
+        });
+        function Ad() {
             admanInit({
                 user_id: user_id,
                 app_id: 7868838,
@@ -43,7 +45,9 @@
 
             function onAdsReady(adman) {
                 adman.onStarted(function () {});
-                adman.onCompleted(function() {});
+                adman.onCompleted(function() {
+                    resetGame()
+                });
                 adman.onSkipped(function() {});
                 adman.onClicked(function() {});
                 adman.start('preroll');
@@ -56,7 +60,7 @@
                     window.location.reload(true)
                 }, 1000)
             };
-        });
+        }
     </script>
 </head>
 <body>
@@ -101,7 +105,7 @@
     <div id="messageBox">Поставь крестик в клетку!</div>
     <br>
     <div class="controls">
-        <button class="button" onclick="window.location.reload(true)">Играть еще раз</button>
+        <button class="button" onclick="Ad();">Играть еще раз</button>
         <select id="difficulty">
             <option value="moron" selected >Легко</option>
             <option value="genius">Сложно</option>
