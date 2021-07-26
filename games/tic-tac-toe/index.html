@@ -46,8 +46,8 @@
                 adman.onCompleted(function() {});
                 adman.onSkipped(function() {});
                 adman.onClicked(function() {});
+                adman.start('preroll');
             };
-            adman.start('preroll');
             setTimeout(() => {
                 window.location.reload(true)
             }, 30000)
