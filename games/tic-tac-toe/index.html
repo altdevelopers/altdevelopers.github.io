@@ -46,10 +46,6 @@
                 adman.onCompleted(function() {});
                 adman.onSkipped(function() {});
                 adman.onClicked(function() {});
-                setInterval(() => {
-                    adman.start('preroll');
-                }, 30000)
-                adman.start('preroll');
             };
             function onNoAds() {
                 setTimeout(() => {
