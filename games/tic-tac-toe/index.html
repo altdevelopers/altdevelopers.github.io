@@ -27,11 +27,12 @@
         window.addEventListener('load', function() {
 
             vkBridge.send('VKWebAppInit');
-            var info = vkBridge.send('VKWebAppGetUserInfo');
-            console.log(JSON.stringify(info.data))
-            var user_id = info.data.id;   // user's id
+            const queryString = window.location.search;
+            console.log(queryString);
+            const urlParams = new URLSearchParams(queryString);
+            const id = urlParams.get(vk_user_id);
+            var user_id = id;   // user's id
             var app_id = 7868838;  // your app's id
-
             admanInit({
                 user_id: user_id,
                 app_id: 7868838,
