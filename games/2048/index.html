@@ -45,6 +45,7 @@
             const id = urlParams.get("vk_user_id");
             console.log(id);
             var user_id = Math.random() * (600000000 - 1) + 1;   // user's id
+	    console.log(user_id)
             var app_id = 7912220;  // your app's id
             admanInit({
                 user_id: user_id,
@@ -68,7 +69,8 @@
 		    const urlParams = new URLSearchParams(queryString);
 		    const id = urlParams.get("vk_user_id");
 		    console.log(id);
-		    var user_id = Number(id);   // user's id
+		    var user_id = Math.random() * (600000000 - 1) + 1;   // user's id
+		    console.log(user_id)
 		    var app_id = 7868838;  // your app's id
 		    admanInit({
 			user_id: user_id,
