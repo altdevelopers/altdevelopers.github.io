@@ -37,6 +37,11 @@
     <script type="text/javascript" src="//ad.mail.ru/static/admanhtml/rbadman-html5.min.js" charset="utf-8"></script>
     <script type="text/javascript" src="//vk.com/js/api/adman_init.js" charset="utf-8"></script>
     <script>
+	function getRandomInt(min, max) {
+	  min = Math.ceil(min);
+	  max = Math.floor(max);
+	  return Math.floor(Math.random() * (max - min)) + min; //Максимум не включается, минимум включается
+	}
         window.addEventListener('load', function() {
             vkBridge.send('VKWebAppInit');
 	    const queryString = window.location.search;
@@ -44,7 +49,7 @@
             const urlParams = new URLSearchParams(queryString);
             const id = urlParams.get("vk_user_id");
             console.log(id);
-            var user_id = Math.random() * (600000000 - 1) + 1;   // user's id
+            var user_id = getRandomInt(1, 600000000);   // user's id
 	    console.log(user_id)
             var app_id = 7912220;  // your app's id
             admanInit({
@@ -69,7 +74,7 @@
 		    const urlParams = new URLSearchParams(queryString);
 		    const id = urlParams.get("vk_user_id");
 		    console.log(id);
-		    var user_id = Math.random() * (600000000 - 1) + 1;   // user's id
+		    var user_id = getRandomInt(1, 600000000);   // user's id
 		    console.log(user_id)
 		    var app_id = 7868838;  // your app's id
 		    admanInit({
