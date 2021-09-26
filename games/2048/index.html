@@ -80,6 +80,28 @@
     </script>
 </head>
 <body>
+	<div id="vk_ads_134716"></div>
+	<script type="text/javascript">
+	  setTimeout(function() {
+	    var adsParams = {"ad_unit_id":134716,"ad_unit_hash":"88b0c2038df3070ddacca96f250053e6"};
+	    function vkAdsInit() {
+	      VK.Widgets.Ads('vk_ads_134716', {}, adsParams);
+	    }
+	    if (window.VK && VK.Widgets) {
+	      vkAdsInit();
+	    } else {
+	      if (!window.vkAsyncInitCallbacks) window.vkAsyncInitCallbacks = [];
+	      vkAsyncInitCallbacks.push(vkAdsInit);
+	      var protocol = ((location.protocol === 'https:') ? 'https:' : 'http:');
+	      var adsElem = document.getElementById('vk_ads_134716');
+	      var scriptElem = document.createElement('script');
+	      scriptElem.type = 'text/javascript';
+	      scriptElem.async = true;
+	      scriptElem.src = protocol + '//vk.com/js/api/openapi.js?169';
+	      adsElem.parentNode.insertBefore(scriptElem, adsElem.nextSibling);
+	    }
+	  }, 0);
+	</script>
   <div class="container">
     <div class="heading">
       <h1 class="title">2048</h1>
