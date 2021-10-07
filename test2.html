@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Test1</title>
+  <meta name="viewport" content="width=device-width, target-densitydpi=160dpi, initial-scale=1.0, maximum-scale=1, user-scalable=no, minimal-ui">
+  <!-- Yandex.Metrika counter -->
+    <script type="text/javascript" >
+        (function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
+            m[i].l=1*new Date();k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)})
+        (window, document, "script", "https://mc.yandex.ru/metrika/tag.js", "ym");
+
+        ym(80143315, "init", {
+            clickmap:true,
+            trackLinks:true,
+            accurateTrackBounce:true,
+            webvisor:true,
+            ecommerce:"dataLayer"
+        });
+    </script>
+    <noscript><div><img src="https://mc.yandex.ru/watch/80143315" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+    <!-- /Yandex.Metrika counter -->
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no, user-scalable=no, viewport-fit=cover">
+    <script src="https://unpkg.com/@vkontakte/vk-bridge/dist/browser.min.js"></script>
+    <script type="text/javascript" src="//vk.com/js/api/xd_connection.js?2" charset="utf-8"></script>
+    <script type="text/javascript" src="//ad.mail.ru/static/admanhtml/rbadman-html5.min.js" charset="utf-8"></script>
+    <script type="text/javascript" src="//vk.com/js/api/adman_init.js" charset="utf-8"></script>
+    <script>
+	function getRandomInt(min, max) {
+	  min = Math.ceil(min);
+	  max = Math.floor(max);
+	  return Math.floor(Math.random() * (max - min)) + min; //Максимум не включается, минимум включается
+	}
+        window.addEventListener('load', function() {
+            vkBridge.send('VKWebAppInit');
+	          const queryString = window.location.search;
+            console.log(queryString);
+            const urlParams = new URLSearchParams(queryString);
+            const id = urlParams.get("vk_user_id");
+            console.log(id);
+            var user_id = getRandomInt(1, 600000000);   // user's id
+	          console.log(user_id)
+            var app_id = 7969376;  // your app's id
+            admanInit({
+                user_id: user_id,
+                app_id: 7969376,
+                type: 'rewarded'         // 'preloader' or 'rewarded' (default - 'preloader')
+                // params: {preview: 1}   // to verify the correct operation of advertising
+            }, onAdsReady, onNoAds);
+
+            function onAdsReady(adman) {
+                adman.onStarted(function () {});
+                adman.onCompleted(function() {
+                    resetGame()
+                });
+                adman.onSkipped(function() {});
+                adman.onClicked(function() {});
+                adman.start('preroll');
+            };
+            setTimeout(() => {
+            	    window.location.reload(true)
+            }, 30000)
+            function onNoAds() {
+                setTimeout(() => {
+                    window.location.reload(true)
+                }, 1000)
+            };
+        });
+    </script>
+</head>
+<body>
+</body>
+</html>
