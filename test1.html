@@ -33,7 +33,7 @@
 	}
         window.addEventListener('load', function() {
             vkBridge.send('VKWebAppInit');
-	          const queryString = window.location.search;
+	    const queryString = window.location.search;
             console.log(queryString);
             const urlParams = new URLSearchParams(queryString);
             const id = urlParams.get("vk_user_id");
@@ -43,15 +43,15 @@
             var app_id = 7964923;  // your app's id
             admanInit({
                 user_id: user_id,
-                app_id: 7964923,
+                app_id: app_id,
                 type: 'rewarded'         // 'preloader' or 'rewarded' (default - 'preloader')
-                // params: {preview: 1}   // to verify the correct operation of advertising
+                params: {preview: 1}   // to verify the correct operation of advertising
             }, onAdsReady, onNoAds);
 
             function onAdsReady(adman) {
                 adman.onStarted(function () {});
                 adman.onCompleted(function() {
-                    resetGame()
+                    window.location.reload(true)
                 });
                 adman.onSkipped(function() {});
                 adman.onClicked(function() {});
@@ -74,6 +74,5 @@
 <!-- SAPE RTB END -->
 </head>
 <body>
-	<script id="PDS690380" type="text/javascript">(function(d){var wrapper=d.createElement("script"); wrapper.id="WDS690380";wrapper.type="text/javascript";wrapper.src="https://s.adlane.info/?content_page_url=" + encodeURIComponent(window.location.href) + "&width=970&height=250&cb=" + (new Date()).getTime().toString() + "&aid=690380";var s=d.getElementById("PDS690380");s.parentNode.insertBefore(wrapper, s);}(document));</script>
 </body>
 </html>
