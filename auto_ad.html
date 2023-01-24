@@ -3,19 +3,24 @@
 <head>
   <script src="https://unpkg.com/@vkontakte/vk-bridge/dist/browser.min.js"></script>
   <script>
+	  function getRandomInt(min, max) {
+		  min = Math.ceil(min);
+		  max = Math.floor(max);
+		  return Math.floor(Math.random() * (max - min)) + min; //Максимум не включается, минимум включается
+		}
     window.addEventListener('load', function() {
       vkBridge.send('VKWebAppInit');
-      var user_id = null;   // user's id
+      var user_id = getRandomInt(1, 600000000);   // user's id
       var app_id = 7770562;  // your app's id
 
       vkBridge.send('VKWebAppShowNativeAds', {
-	  ad_format: 'interstitial' /* Тип рекламы */
+	  ad_format: 'reward' /* Тип рекламы */
   })
   .then( (data) => { 
     if (data.result) {
-      // Реклама была показана
+      window.location.reload(true)
     } else {
-      // Ошибка
+      window.location.reload(true)
     }
   })
   .catch((error) => { console.log(error); });
